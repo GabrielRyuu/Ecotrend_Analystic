@@ -35,11 +35,7 @@ for cidade, coords in coordenadas_cidades.items():
         tooltip=f"{cidade} ({indice})",
         icon=folium.Icon(color="green" if indice > 70 else "red")
     ).add_to(mapa)
-
-# Exibir mapa no Streamlit
-st.subheader("Mapa Interativo")
-st_folium(mapa, width=700, height=500)
-
+    
 # Converta os dados para DataFrame
 df = pd.DataFrame(list(indices.items()), columns=['Cidade', 'Índice de Sustentabilidade'])
 
@@ -81,6 +77,10 @@ dados_adicionais = {
 # Adicione os índices de sustentabilidade aos dados adicionais
 for cidade in dados_adicionais:
     dados_adicionais[cidade]['Índice de Sustentabilidade'] = indices[cidade]
+
+# Exibir mapa no Streamlit
+st.subheader("Mapa Interativo")
+st_folium(mapa, width=700, height=500)
 
 # Converta para DataFrame
 df_adicional = pd.DataFrame(dados_adicionais).T.reset_index()
