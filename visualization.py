@@ -5,9 +5,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 def create_interactive_map(city_coordinates, sustainability_indices):
-    """
-    Cria um mapa interativo com marcadores personalizados.
-    """
     m = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
     
     for city, coords in city_coordinates.items():
@@ -22,9 +19,6 @@ def create_interactive_map(city_coordinates, sustainability_indices):
     return m
 
 def plot_comparacao_idh_area_verde(df):
-    """
-    Cria um gráfico de dispersão para comparar IDH e Área Verde.
-    """
     fig_disp = px.scatter(
         df,
         x='IDH',
@@ -44,9 +38,6 @@ def plot_comparacao_idh_area_verde(df):
     return fig_disp
 
 def plot_radar(df):
-    """
-    Cria um gráfico radar comparando múltiplos indicadores por cidade.
-    """
     fig_radar = go.Figure()
 
     for i in range(len(df)):
@@ -71,18 +62,14 @@ def plot_radar(df):
     return fig_radar
 
 def plot_sustainability_index(indices):
-    """
-    Cria um gráfico de barras dos índices de sustentabilidade com melhorias visuais.
-    """
     plt.figure(figsize=(12, 6))
-    cores = sns.color_palette('viridis', len(indices))  # Paleta de cores
+    cores = sns.color_palette('viridis', len(indices))  
     ax = sns.barplot(
         x=list(indices.keys()), 
         y=list(indices.values()), 
         palette=cores
     )
     
-    # Adicionar rótulos de valor acima das barras
     for p in ax.patches:
         ax.annotate(f'{p.get_height():.0f}', 
                     (p.get_x() + p.get_width() / 2., p.get_height()), 
