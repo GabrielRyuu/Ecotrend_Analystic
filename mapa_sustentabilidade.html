@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_3223570c2314c798114390ce2efa0add {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_3223570c2314c798114390ce2efa0add" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_3223570c2314c798114390ce2efa0add = L.map(
+                "map_3223570c2314c798114390ce2efa0add",
+                {
+                    center: [-14.235004, -51.92528],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 4,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3d29e70664932887ff1c6d88db7db009 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3d29e70664932887ff1c6d88db7db009.addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+            var circle_marker_55c277b79374c49d46ab5777269b4be0 = L.circleMarker(
+                [-23.5506507, -46.6333824],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+        var popup_316c89d5080f1bd8e0c62774150bb7e6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c460a34745cf2821fdeaff869589e1cf = $(`<div id="html_c460a34745cf2821fdeaff869589e1cf" style="width: 100.0%; height: 100.0%;">São Paulo: 82.46</div>`)[0];
+                popup_316c89d5080f1bd8e0c62774150bb7e6.setContent(html_c460a34745cf2821fdeaff869589e1cf);
+            
+        
+
+        circle_marker_55c277b79374c49d46ab5777269b4be0.bindPopup(popup_316c89d5080f1bd8e0c62774150bb7e6)
+        ;
+
+        
+    
+    
+            var circle_marker_39e9a4ddb14ecd406fdddb54f9411849 = L.circleMarker(
+                [-22.9110137, -43.2093727],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+        var popup_6494559790b68eb4ea5a31a04de499b4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_37209f860a61cacaefa34d67e0f31263 = $(`<div id="html_37209f860a61cacaefa34d67e0f31263" style="width: 100.0%; height: 100.0%;">Rio de Janeiro: 77.50</div>`)[0];
+                popup_6494559790b68eb4ea5a31a04de499b4.setContent(html_37209f860a61cacaefa34d67e0f31263);
+            
+        
+
+        circle_marker_39e9a4ddb14ecd406fdddb54f9411849.bindPopup(popup_6494559790b68eb4ea5a31a04de499b4)
+        ;
+
+        
+    
+    
+            var circle_marker_5bcd8383ab8c690e33f94e3ad806a4fd = L.circleMarker(
+                [-19.9227318, -43.9450948],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+        var popup_64bb7d06f343e2e73a02198e79be581d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cc70323dd13c309df6b3bf1413f2cfae = $(`<div id="html_cc70323dd13c309df6b3bf1413f2cfae" style="width: 100.0%; height: 100.0%;">Belo Horizonte: 46.55</div>`)[0];
+                popup_64bb7d06f343e2e73a02198e79be581d.setContent(html_cc70323dd13c309df6b3bf1413f2cfae);
+            
+        
+
+        circle_marker_5bcd8383ab8c690e33f94e3ad806a4fd.bindPopup(popup_64bb7d06f343e2e73a02198e79be581d)
+        ;
+
+        
+    
+    
+            var circle_marker_53429d4bdceec87deec55403982463f9 = L.circleMarker(
+                [-10.3333333, -53.2],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+        var popup_4ea21f129661455902e8005c7e27fec6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a596c118a717e927928bf9a0634d657e = $(`<div id="html_a596c118a717e927928bf9a0634d657e" style="width: 100.0%; height: 100.0%;">Brasília: 100.00</div>`)[0];
+                popup_4ea21f129661455902e8005c7e27fec6.setContent(html_a596c118a717e927928bf9a0634d657e);
+            
+        
+
+        circle_marker_53429d4bdceec87deec55403982463f9.bindPopup(popup_4ea21f129661455902e8005c7e27fec6)
+        ;
+
+        
+    
+    
+            var circle_marker_48339830de89123ed2786577790055f9 = L.circleMarker(
+                [-12.9822499, -38.4812772],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_3223570c2314c798114390ce2efa0add);
+        
+    
+        var popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_88741b81bbba409e2a5ac5ca3828bdf0 = $(`<div id="html_88741b81bbba409e2a5ac5ca3828bdf0" style="width: 100.0%; height: 100.0%;">Salvador: 43.51</div>`)[0];
+                popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d.setContent(html_88741b81bbba409e2a5ac5ca3828bdf0);
+            
+        
+
+        circle_marker_48339830de89123ed2786577790055f9.bindPopup(popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d)
+        ;
+
+        
+    
+</script>
+</html>
