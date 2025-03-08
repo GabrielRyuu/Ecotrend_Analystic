@@ -10,3 +10,8 @@ geopy
 unidecode
 earthengine-api
 requests
+matplotlib
+seaborn
+folium
+streamlit
+scikit-learn
