@@ -3,127 +3,124 @@ import pandas as pd
 import plotly.express as px
 import folium
 from streamlit_folium import st_folium
-from visualization import plot_comparacao_idh_area_verde, plot_radar
+from visualization import plot_comparacao_idh_area_verde, plot_radar, plot_sustainability_index
+import json  # Import necessário para manipular JSON
 
-indices = {
-    'São Paulo': 76,
-    'Rio de Janeiro': 82,
-    'Belo Horizonte': 64,
-    'Brasília': 93,
-    'Salvador': 58
-}
-
-coordenadas_cidades = {
-    'São Paulo': [-23.55052, -46.633308],
-    'Rio de Janeiro': [-22.906847, -43.172896],
-    'Belo Horizonte': [-19.9166813, -43.9344931],
-    'Brasília': [-15.826691, -47.921822],
-    'Salvador': [-12.971399, -38.501305]
-}
-
-mapa = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
-
-for cidade, coords in coordenadas_cidades.items():
-    indice = indices[cidade]
-    folium.Marker(
-        location=coords,
-        popup=f"{cidade}: {indice}",
-        tooltip=f"{cidade} ({indice})",
-        icon=folium.Icon(color="green" if indice > 70 else "red")
-    ).add_to(mapa)
-
-df = pd.DataFrame(list(indices.items()), columns=['Cidade', 'Índice de Sustentabilidade'])
-
-st.title("Índice de Sustentabilidade Urbana - Principais Cidades Brasileiras")
-
-fig = px.bar(
-    df,
-    x='Cidade',
-    y='Índice de Sustentabilidade',
-    color='Índice de Sustentabilidade',
-    color_continuous_scale='viridis',
-    title="Índice de Sustentabilidade por Cidade"
-)
-
-st.plotly_chart(fig, use_container_width=True, key="main_chart")
-
-st.subheader("Tabela de Dados")
-st.dataframe(df)
-
-st.markdown("""
-### Sobre o Índice de Sustentabilidade
-O índice foi calculado com base em dados geoespaciais e indicadores ambientais das cidades brasileiras.
-Ele reflete fatores como cobertura vegetal (NDVI) e densidade urbana (NDBI).
-""")
-
-dados_adicionais = {
-    'São Paulo': {'Temperatura Média (°C)': 22.5, 'IDH': 0.805, 'Área Verde (m²/hab)': 15},
-    'Rio de Janeiro': {'Temperatura Média (°C)': 24.2, 'IDH': 0.799, 'Área Verde (m²/hab)': 12},
-    'Belo Horizonte': {'Temperatura Média (°C)': 21.8, 'IDH': 0.810, 'Área Verde (m²/hab)': 18},
-    'Brasília': {'Temperatura Média (°C)': 23.4, 'IDH': 0.824, 'Área Verde (m²/hab)': 25},
-    'Salvador': {'Temperatura Média (°C)': 26.3, 'IDH': 0.759, 'Área Verde (m²/hab)': 10}
-}
-
-for cidade in dados_adicionais:
-    dados_adicionais[cidade]['Índice de Sustentabilidade'] = indices[cidade]
-
-st.subheader("Mapa Interativo")
-st_folium(mapa, width=700, height=500)
-
-df_adicional = pd.DataFrame(dados_adicionais).T.reset_index()
-df_adicional.rename(columns={'index': 'Cidade'}, inplace=True)
-
-st.subheader("Indicadores Adicionais")
-st.dataframe(df_adicional)
-
-cidade_selecionada_sidebar = st.sidebar.selectbox(
-    "Selecione uma cidade na barra lateral:", df['Cidade'], key="sidebar_city_select"
-)
-
-indice_min_sidebar, indice_max_sidebar = st.sidebar.slider(
-    "Filtrar Índice de Sustentabilidade na barra lateral:",
-    min_value=int(df['Índice de Sustentabilidade'].min()),
-    max_value=int(df['Índice de Sustentabilidade'].max()),
-    value=(60, 90),
-    key="sidebar_slider"
-)
-
-cidade_selecionada_main = st.selectbox(
-    "Selecione uma cidade na seção principal:", df['Cidade'], key="main_city_select"
-)
-
-indice_min_main, indice_max_main = st.slider(
-    "Filtrar Índice de Sustentabilidade na seção principal:",
-    min_value=int(df['Índice de Sustentabilidade'].min()),
-    max_value=int(df['Índice de Sustentabilidade'].max()),
-    value=(60, 90),
-    key="main_slider"
-)
-
-df_filtrado_main = df[(df['Índice de Sustentabilidade'] >= indice_min_main) & 
-                      (df['Índice de Sustentabilidade'] <= indice_max_main)]
-
-fig_filtrado_main = px.bar(
-    df_filtrado_main,
-    x='Cidade',
-    y='Índice de Sustentabilidade',
-    color='Índice de Sustentabilidade',
-    title="Índice Filtrado na Seção Principal"
-)
-st.plotly_chart(fig_filtrado_main, use_container_width=True, key="filtered_chart_main")
-
-st.plotly_chart(plot_comparacao_idh_area_verde(df_adicional), key="idh_area_chart")
-st.plotly_chart(plot_radar(df_adicional), key="radar_chart")
-
+# Função para carregar os dados reais gerados pelo main.py
 @st.cache_data
-def convert_df(df):
-    return df.to_csv(index=False).encode('utf-8')
+def load_data():
+    try:
+        df = pd.read_csv("resultados_sustentabilidade.csv")  # Arquivo gerado pelo main.py
+        return df
+    except FileNotFoundError:
+        st.error("Arquivo resultados_sustentabilidade.csv não encontrado. Execute o main.py primeiro.")
+        return pd.DataFrame()  # Retorna um DataFrame vazio se o arquivo não for encontrado
 
-csv = convert_df(df)
+# Carregar os dados reais
+df = load_data()
 
-st.download_button(
-   label="Baixar Dados em CSV",
-   data=csv,
-   file_name='sustentabilidade_cidades.csv',
-   mime='text/csv'
-)
+if not df.empty:
+    # Título do dashboard
+    st.title("Índice de Sustentabilidade Urbana - Dados Reais")
+
+    # Layout com colunas para gráficos e mapa lado a lado
+    col1, col2 = st.columns(2)
+
+    with col1:
+        # Gráfico interativo com Plotly
+        fig = px.bar(
+            df,
+            x='Cidade',
+            y='Índice de Sustentabilidade',
+            color='Índice de Sustentabilidade',
+            color_continuous_scale='viridis',
+            title="Índice de Sustentabilidade por Cidade"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col2:
+        # Criar o mapa interativo com Folium
+        mapa = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
+        for _, row in df.iterrows():
+            folium.Marker(
+                location=[row['Latitude'], row['Longitude']],
+                popup=f"{row['Cidade']}: {row['Índice de Sustentabilidade']}",
+                tooltip=f"{row['Cidade']} ({row['Índice de Sustentabilidade']})",
+                icon=folium.Icon(color="green" if row['Índice de Sustentabilidade'] > 70 else "red")
+            ).add_to(mapa)
+        
+        st.subheader("Mapa Interativo")
+        st_folium(mapa, width=700, height=500)
+
+    # Exibir tabela com os dados carregados
+    st.subheader("Tabela de Dados Reais")
+    st.dataframe(df)
+
+    # Filtros na barra lateral
+    st.sidebar.title("Filtros")
+    cidade_selecionada_sidebar = st.sidebar.selectbox(
+        "Selecione uma cidade na barra lateral:", df['Cidade']
+    )
+
+    # Corrigir slider para retornar intervalo (mínimo e máximo)
+    indice_min_sidebar, indice_max_sidebar = st.sidebar.slider(
+        "Filtrar Índice de Sustentabilidade:",
+        min_value=int(df['Índice de Sustentabilidade'].min()),
+        max_value=int(df['Índice de Sustentabilidade'].max()),
+        value=(60, 90)  # Certifique-se de usar uma tupla aqui!
+    )
+
+    # Filtrar os dados com base nos filtros da barra lateral
+    df_filtrado_sidebar = df[(df['Índice de Sustentabilidade'] >= indice_min_sidebar) & 
+                             (df['Índice de Sustentabilidade'] <= indice_max_sidebar)]
+
+    # Atualizar gráfico com base nos filtros da barra lateral
+    fig_filtrado_sidebar = px.bar(
+        df_filtrado_sidebar,
+        x='Cidade',
+        y='Índice de Sustentabilidade',
+        color='Índice de Sustentabilidade',
+        title="Índice Filtrado na Barra Lateral"
+    )
+    st.sidebar.plotly_chart(fig_filtrado_sidebar)
+
+    # Gráficos comparativos (exemplo: dispersão e radar)
+    if all(col in df.columns for col in ['IDH', 'Área Verde (m²/hab)', 'Temperatura Média (°C)']):
+        st.plotly_chart(plot_comparacao_idh_area_verde(df), key="idh_area_chart")
+        st.plotly_chart(plot_radar(df), key="radar_chart")
+    else:
+        st.warning("Dados adicionais necessários para gráficos comparativos não estão disponíveis.")
+
+    # Gráfico estático (Matplotlib/Seaborn)
+    st.subheader("Gráfico Estático - Índice de Sustentabilidade")
+    plot_sustainability_index(dict(zip(df['Cidade'], df['Índice de Sustentabilidade'])))
+
+    # Função para exportação dos dados em CSV diretamente no dashboard
+    @st.cache_data
+    def convert_df_to_csv(dataframe):
+        return dataframe.to_csv(index=False).encode('utf-8')
+
+    csv = convert_df_to_csv(df)
+
+    st.download_button(
+       label="Baixar Dados em CSV",
+       data=csv,
+       file_name='dados_sustentabilidade.csv',
+       mime='text/csv'
+    )
+
+    # Função para exportação dos dados em JSON diretamente no dashboard
+    @st.cache_data
+    def convert_df_to_json(dataframe):
+        return dataframe.to_json(orient='records', indent=4).encode('utf-8')
+
+    json_data = convert_df_to_json(df)
+
+    st.download_button(
+       label="Baixar Dados em JSON",
+       data=json_data,
+       file_name='dados_sustentabilidade.json',
+       mime='application/json'
+    )
+else:
+    st.warning("Nenhum dado disponível. Execute o main.py para gerar os dados reais.")

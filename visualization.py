@@ -3,6 +3,7 @@ import seaborn as sns
 import folium
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit as st  # Adicione esta importação para integrar ao Streamlit
 
 def create_interactive_map(city_coordinates, sustainability_indices):
     m = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
@@ -62,6 +63,12 @@ def plot_radar(df):
     return fig_radar
 
 def plot_sustainability_index(indices):
+    """
+    Exibe um gráfico de barras dos índices de sustentabilidade no Streamlit.
+    
+    Parâmetros:
+        indices (dict): Dicionário com os índices de sustentabilidade por cidade.
+    """
     plt.figure(figsize=(12, 6))
     cores = sns.color_palette('viridis', len(indices))  
     ax = sns.barplot(
@@ -82,4 +89,6 @@ def plot_sustainability_index(indices):
     plt.xlabel('Cidades', fontsize=12)
     plt.xticks(rotation=45, fontsize=10)
     plt.tight_layout()
-    plt.show()
+    
+    # Exibe o gráfico no Streamlit
+    st.pyplot(plt)

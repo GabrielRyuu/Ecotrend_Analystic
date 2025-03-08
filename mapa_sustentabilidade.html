@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_3223570c2314c798114390ce2efa0add {
+                #map_33a82019432cfa721adec5a462c0596c {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -39,14 +39,14 @@
 <body>
     
     
-            <div class="folium-map" id="map_3223570c2314c798114390ce2efa0add" ></div>
+            <div class="folium-map" id="map_33a82019432cfa721adec5a462c0596c" ></div>
         
 </body>
 <script>
     
     
-            var map_3223570c2314c798114390ce2efa0add = L.map(
-                "map_3223570c2314c798114390ce2efa0add",
+            var map_33a82019432cfa721adec5a462c0596c = L.map(
+                "map_33a82019432cfa721adec5a462c0596c",
                 {
                     center: [-14.235004, -51.92528],
                     crs: L.CRS.EPSG3857,
@@ -63,7 +63,7 @@
 
         
     
-            var tile_layer_3d29e70664932887ff1c6d88db7db009 = L.tileLayer(
+            var tile_layer_02f7c235d28e20338c63d5c770ad72fc = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -80,122 +80,247 @@
             );
         
     
-            tile_layer_3d29e70664932887ff1c6d88db7db009.addTo(map_3223570c2314c798114390ce2efa0add);
+            tile_layer_02f7c235d28e20338c63d5c770ad72fc.addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-            var circle_marker_55c277b79374c49d46ab5777269b4be0 = L.circleMarker(
+            var marker_910ccb1aca5107d9d032647983bfa632 = L.marker(
                 [-23.5506507, -46.6333824],
-                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
-            ).addTo(map_3223570c2314c798114390ce2efa0add);
+                {
+}
+            ).addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-        var popup_316c89d5080f1bd8e0c62774150bb7e6 = L.popup({
+            var icon_d35be461c74d577a69991abc542b3848 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c9d7f4a3fa10309fa9dc5c71ba12a46c = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_c460a34745cf2821fdeaff869589e1cf = $(`<div id="html_c460a34745cf2821fdeaff869589e1cf" style="width: 100.0%; height: 100.0%;">São Paulo: 82.46</div>`)[0];
-                popup_316c89d5080f1bd8e0c62774150bb7e6.setContent(html_c460a34745cf2821fdeaff869589e1cf);
+                var html_f638e494238f0849314a458b924d93d7 = $(`<div id="html_f638e494238f0849314a458b924d93d7" style="width: 100.0%; height: 100.0%;"><b>São Paulo</b><br>Índice de Sustentabilidade: 76.88</div>`)[0];
+                popup_c9d7f4a3fa10309fa9dc5c71ba12a46c.setContent(html_f638e494238f0849314a458b924d93d7);
             
         
 
-        circle_marker_55c277b79374c49d46ab5777269b4be0.bindPopup(popup_316c89d5080f1bd8e0c62774150bb7e6)
+        marker_910ccb1aca5107d9d032647983bfa632.bindPopup(popup_c9d7f4a3fa10309fa9dc5c71ba12a46c)
         ;
 
         
     
     
-            var circle_marker_39e9a4ddb14ecd406fdddb54f9411849 = L.circleMarker(
+            marker_910ccb1aca5107d9d032647983bfa632.bindTooltip(
+                `<div>
+                     São Paulo (76.88)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_910ccb1aca5107d9d032647983bfa632.setIcon(icon_d35be461c74d577a69991abc542b3848);
+            
+    
+            var marker_4267568fe67be2ceb2ab64528a8893f3 = L.marker(
                 [-22.9110137, -43.2093727],
-                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
-            ).addTo(map_3223570c2314c798114390ce2efa0add);
+                {
+}
+            ).addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-        var popup_6494559790b68eb4ea5a31a04de499b4 = L.popup({
+            var icon_95cfc5a6739f465bc839e835caf531b4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3b1b0a3e0d55d3772ca2c9a28ad3c09f = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_37209f860a61cacaefa34d67e0f31263 = $(`<div id="html_37209f860a61cacaefa34d67e0f31263" style="width: 100.0%; height: 100.0%;">Rio de Janeiro: 77.50</div>`)[0];
-                popup_6494559790b68eb4ea5a31a04de499b4.setContent(html_37209f860a61cacaefa34d67e0f31263);
+                var html_4ad2a376fc9165626f745b473729063b = $(`<div id="html_4ad2a376fc9165626f745b473729063b" style="width: 100.0%; height: 100.0%;"><b>Rio de Janeiro</b><br>Índice de Sustentabilidade: 73.98</div>`)[0];
+                popup_3b1b0a3e0d55d3772ca2c9a28ad3c09f.setContent(html_4ad2a376fc9165626f745b473729063b);
             
         
 
-        circle_marker_39e9a4ddb14ecd406fdddb54f9411849.bindPopup(popup_6494559790b68eb4ea5a31a04de499b4)
+        marker_4267568fe67be2ceb2ab64528a8893f3.bindPopup(popup_3b1b0a3e0d55d3772ca2c9a28ad3c09f)
         ;
 
         
     
     
-            var circle_marker_5bcd8383ab8c690e33f94e3ad806a4fd = L.circleMarker(
+            marker_4267568fe67be2ceb2ab64528a8893f3.bindTooltip(
+                `<div>
+                     Rio de Janeiro (73.98)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4267568fe67be2ceb2ab64528a8893f3.setIcon(icon_95cfc5a6739f465bc839e835caf531b4);
+            
+    
+            var marker_7e03e2fdcbfb8c8f6031457e75ee128c = L.marker(
                 [-19.9227318, -43.9450948],
-                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
-            ).addTo(map_3223570c2314c798114390ce2efa0add);
+                {
+}
+            ).addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-        var popup_64bb7d06f343e2e73a02198e79be581d = L.popup({
+            var icon_d2ee98c7fe8a95a3d7914885fedc0570 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_33075e7192e5e44881eb4d233021fe51 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_cc70323dd13c309df6b3bf1413f2cfae = $(`<div id="html_cc70323dd13c309df6b3bf1413f2cfae" style="width: 100.0%; height: 100.0%;">Belo Horizonte: 46.55</div>`)[0];
-                popup_64bb7d06f343e2e73a02198e79be581d.setContent(html_cc70323dd13c309df6b3bf1413f2cfae);
+                var html_fe4c58809fb0cc30d1e6858ac88e4d13 = $(`<div id="html_fe4c58809fb0cc30d1e6858ac88e4d13" style="width: 100.0%; height: 100.0%;"><b>Belo Horizonte</b><br>Índice de Sustentabilidade: 43.21</div>`)[0];
+                popup_33075e7192e5e44881eb4d233021fe51.setContent(html_fe4c58809fb0cc30d1e6858ac88e4d13);
             
         
 
-        circle_marker_5bcd8383ab8c690e33f94e3ad806a4fd.bindPopup(popup_64bb7d06f343e2e73a02198e79be581d)
+        marker_7e03e2fdcbfb8c8f6031457e75ee128c.bindPopup(popup_33075e7192e5e44881eb4d233021fe51)
         ;
 
         
     
     
-            var circle_marker_53429d4bdceec87deec55403982463f9 = L.circleMarker(
+            marker_7e03e2fdcbfb8c8f6031457e75ee128c.bindTooltip(
+                `<div>
+                     Belo Horizonte (43.21)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7e03e2fdcbfb8c8f6031457e75ee128c.setIcon(icon_d2ee98c7fe8a95a3d7914885fedc0570);
+            
+    
+            var marker_f39daf8a155c9f4da3230ef80762202b = L.marker(
                 [-10.3333333, -53.2],
-                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
-            ).addTo(map_3223570c2314c798114390ce2efa0add);
+                {
+}
+            ).addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-        var popup_4ea21f129661455902e8005c7e27fec6 = L.popup({
+            var icon_d7652c03c9dc49301a082cc36b5da8f0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_365567c2fd5cb47974e406463fa6b3b6 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_a596c118a717e927928bf9a0634d657e = $(`<div id="html_a596c118a717e927928bf9a0634d657e" style="width: 100.0%; height: 100.0%;">Brasília: 100.00</div>`)[0];
-                popup_4ea21f129661455902e8005c7e27fec6.setContent(html_a596c118a717e927928bf9a0634d657e);
+                var html_218ee71d184d3afeb1a373675e4e6453 = $(`<div id="html_218ee71d184d3afeb1a373675e4e6453" style="width: 100.0%; height: 100.0%;"><b>Brasília</b><br>Índice de Sustentabilidade: 100.00</div>`)[0];
+                popup_365567c2fd5cb47974e406463fa6b3b6.setContent(html_218ee71d184d3afeb1a373675e4e6453);
             
         
 
-        circle_marker_53429d4bdceec87deec55403982463f9.bindPopup(popup_4ea21f129661455902e8005c7e27fec6)
+        marker_f39daf8a155c9f4da3230ef80762202b.bindPopup(popup_365567c2fd5cb47974e406463fa6b3b6)
         ;
 
         
     
     
-            var circle_marker_48339830de89123ed2786577790055f9 = L.circleMarker(
+            marker_f39daf8a155c9f4da3230ef80762202b.bindTooltip(
+                `<div>
+                     Brasília (100.00)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f39daf8a155c9f4da3230ef80762202b.setIcon(icon_d7652c03c9dc49301a082cc36b5da8f0);
+            
+    
+            var marker_221174cc848e9de55de506144bd72e64 = L.marker(
                 [-12.9822499, -38.4812772],
-                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
-            ).addTo(map_3223570c2314c798114390ce2efa0add);
+                {
+}
+            ).addTo(map_33a82019432cfa721adec5a462c0596c);
         
     
-        var popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d = L.popup({
+            var icon_86dd915b800d328ecd02578a4e7c0241 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7294eb127404f6da89612cdd4e2f03f1 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_88741b81bbba409e2a5ac5ca3828bdf0 = $(`<div id="html_88741b81bbba409e2a5ac5ca3828bdf0" style="width: 100.0%; height: 100.0%;">Salvador: 43.51</div>`)[0];
-                popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d.setContent(html_88741b81bbba409e2a5ac5ca3828bdf0);
+                var html_16e3a7eeb30e0d58c0d2f551a1303e7f = $(`<div id="html_16e3a7eeb30e0d58c0d2f551a1303e7f" style="width: 100.0%; height: 100.0%;"><b>Salvador</b><br>Índice de Sustentabilidade: 43.81</div>`)[0];
+                popup_7294eb127404f6da89612cdd4e2f03f1.setContent(html_16e3a7eeb30e0d58c0d2f551a1303e7f);
             
         
 
-        circle_marker_48339830de89123ed2786577790055f9.bindPopup(popup_d1ca0d6ad60dae6aa367c3f2a1bfba7d)
+        marker_221174cc848e9de55de506144bd72e64.bindPopup(popup_7294eb127404f6da89612cdd4e2f03f1)
         ;
 
         
     
+    
+            marker_221174cc848e9de55de506144bd72e64.bindTooltip(
+                `<div>
+                     Salvador (43.81)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_221174cc848e9de55de506144bd72e64.setIcon(icon_86dd915b800d328ecd02578a4e7c0241);
+            
 </script>
 </html>

@@ -1,0 +1,65 @@
+{
+    "resultados": {
+        "S\u00e3o Paulo": 76.88392311295266,
+        "Rio de Janeiro": 73.97811036182544,
+        "Belo Horizonte": 43.20832732242356,
+        "Bras\u00edlia": 100,
+        "Salvador": 43.81194695015261
+    },
+    "coordenadas": {
+        "S\u00e3o Paulo": [
+            -23.5506507,
+            -46.6333824
+        ],
+        "Rio de Janeiro": [
+            -22.9110137,
+            -43.2093727
+        ],
+        "Belo Horizonte": [
+            -19.9227318,
+            -43.9450948
+        ],
+        "Bras\u00edlia": [
+            -10.3333333,
+            -53.2
+        ],
+        "Salvador": [
+            -12.9822499,
+            -38.4812772
+        ]
+    },
+    "estatisticas": {
+        "M\u00e9dia": 67.57646154947085,
+        "Mediana": 73.97811036182544,
+        "Desvio Padr\u00e3o": 21.621535161842502,
+        "M\u00e1ximo": 100,
+        "M\u00ednimo": 43.20832732242356
+    },
+    "dados_adicionais": {
+        "S\u00e3o Paulo": {
+            "IDH": 0.805,
+            "\u00c1rea Verde (m\u00b2/hab)": 15,
+            "Temperatura M\u00e9dia (\u00b0C)": 22.5
+        },
+        "Rio de Janeiro": {
+            "IDH": 0.799,
+            "\u00c1rea Verde (m\u00b2/hab)": 12,
+            "Temperatura M\u00e9dia (\u00b0C)": 24.2
+        },
+        "Belo Horizonte": {
+            "IDH": 0.81,
+            "\u00c1rea Verde (m\u00b2/hab)": 18,
+            "Temperatura M\u00e9dia (\u00b0C)": 21.8
+        },
+        "Bras\u00edlia": {
+            "IDH": 0.824,
+            "\u00c1rea Verde (m\u00b2/hab)": 25,
+            "Temperatura M\u00e9dia (\u00b0C)": 23.4
+        },
+        "Salvador": {
+            "IDH": 0.759,
+            "\u00c1rea Verde (m\u00b2/hab)": 10,
+            "Temperatura M\u00e9dia (\u00b0C)": 26.3
+        }
+    }
+}
