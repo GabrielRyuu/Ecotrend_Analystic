@@ -15,5 +15,3 @@ seaborn
 folium
 streamlit
 scikit-learn
-json
-csv
