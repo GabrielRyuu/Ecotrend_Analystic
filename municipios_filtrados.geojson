@@ -4,32 +4,6 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "São Paulo"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -46.6333824,
-          -23.5506507
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Rio de Janeiro"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -43.2093727,
-          -22.9110137
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "Belo Horizonte"
       },
       "geometry": {
@@ -43,16 +17,17 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Brasília"
+        "name": "São Paulo"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -53.2,
-          -10.3333333
+          -46.6333824,
+          -23.5506507
         ]
       }
     },
+    
     {
       "type": "Feature",
       "properties": {
@@ -63,6 +38,19 @@
         "coordinates": [
           -38.4812772,
           -12.9822499
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rio de Janeiro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -43.2093727,
+          -22.9110137
         ]
       }
     }
