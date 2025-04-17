@@ -1,0 +1,61 @@
+{
+  "resultados": {
+    "São Paulo": 49.0439441986084,
+    "Rio de Janeiro": 29.445622979736328,
+    "Belo Horizonte": 71.58463502502441,
+
+    "Salvador": 55.77157591972351
+  },
+  "coordenadas": {
+    "São Paulo": [
+      -23.55052,
+      -46.633308
+    ],
+    "Rio de Janeiro": [
+      -22.9068,
+      -43.1729
+    ],
+    "Belo Horizonte": [
+      -19.8157,
+      -43.9542
+    ],
+    "Salvador": [
+      -12.9714,
+      -38.5014
+    ]
+  },
+  "estatisticas": {
+    "Média": 51.461444530773164,
+    "Mediana": 52.40776005916595,
+    "Desvio Padrão": 15.1167186806616,
+    "Máximo": 71.58463502502441,
+    "Mínimo": 29.445622979736328,
+    "Número de Cidades": 4
+  },
+  "dados_adicionais": {
+    "São Paulo": {
+      "IDH": 0.805,
+      "Área Verde (m²/hab)": 15,
+      "Temperatura Média (°C)": 22.5
+    },
+    "Rio de Janeiro": {
+      "IDH": 0.799,
+      "Área Verde (m²/hab)": 12,
+      "Temperatura Média (°C)": 24.2
+    },
+    "Belo Horizonte": {
+      "IDH": 0.81,
+      "Área Verde (m²/hab)": 18,
+      "Temperatura Média (°C)": 21.8
+    },
+    "Salvador": {
+      "IDH": 0.759,
+      "Área Verde (m²/hab)": 10,
+      "Temperatura Média (°C)": 26.3
+    }
+  },
+  "metadata": {
+    "data_processamento": "2025-04-17 00:03:40",
+    "versao": "1.0"
+  }
+}
