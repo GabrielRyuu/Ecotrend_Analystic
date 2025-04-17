@@ -1,178 +1,175 @@
 import geopandas as gpd
 import logging
 import ee
-from streamlit import image
+import time
+from typing import Dict, Optional, Tuple, Any
+from functools import lru_cache
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-CIDADES_ALVO = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Brasília', 'Salvador']
 
-def initialize_ee(project_id):
-    """
-    Inicializa o Google Earth Engine.
-    
-    Parâmetros:
-        project_id (str): ID do projeto no Google Cloud.
-    """
-    try:
-        ee.Authenticate()
-        ee.Initialize(project=project_id)
-        logger.info(f"Earth Engine inicializado com o projeto: {project_id}")
-    except Exception as e:
-        logger.error(f"Erro ao inicializar o Earth Engine: {str(e)}")
-        raise
 
-def get_city_geometry(city_name, geojson_file="municipios_filtrados.geojson"):
-    """
-    Obtém a geometria (coordenadas) de uma cidade específica a partir do arquivo GeoJSON.
+
+@lru_cache(maxsize=32)
+def get_city_geometry(city_name: str, geojson_file: str = "municipios_filtrados.geojson", buffer_meters: int = 10000) -> ee.Geometry:
+    """Obtém a geometria de uma cidade com buffer personalizado.
     
-    Parâmetros:
-        city_name (str): Nome da cidade.
-        geojson_file (str): Nome do arquivo GeoJSON contendo os dados das cidades.
-    
-    Retorna:
-        ee.Geometry.Point: Geometria da cidade no formato Earth Engine.
+    Args:
+        buffer_meters: Raio do buffer em metros (padrão: 10km)
     """
     try:
         gdf = gpd.read_file(geojson_file)
-        city_data = gdf[gdf['name'] == city_name]
+        
+        # Busca normalizada
+        normalized_name = (city_name.lower()
+                         .replace('ã', 'a')
+                         .replace('á', 'a')
+                         .replace('é', 'e'))
+        
+        city_data = gdf[gdf['name'].str.lower().str.normalize('NFKD')
+                                  .str.encode('ascii', errors='ignore')
+                                  .str.decode('utf-8')
+                                  .str.replace('ã', 'a')
+                                  .eq(normalized_name)]
         
         if city_data.empty:
-            raise ValueError(f"Cidade {city_name} não encontrada no GeoJSON.")
+            raise ValueError(f"Cidade {city_name} não encontrada")
+            
+        geom = city_data.iloc[0].geometry
         
-        geometry = city_data.iloc[0].geometry
-        logger.info(f"Geometria obtida para {city_name}.")
+        if geom.geom_type == 'Point':
+            point = ee.Geometry.Point([geom.x, geom.y])
+            return point.buffer(buffer_meters)  # Buffer circular
+            
+        raise ValueError(f"Tipo de geometria não suportado: {geom.geom_type}")
         
-        return ee.Geometry.Point(geometry.x, geometry.y)
     except Exception as e:
-        logger.error(f"Erro ao obter geometria para {city_name}: {str(e)}")
+        logger.error(f"Erro na geometria de {city_name}: {str(e)}")
         raise
 
-def get_satellite_images(geometry, start_date, end_date, max_cloud_cover=20):
-    """
-    Obtém imagens de satélite filtradas por data e cobertura de nuvens.
+def validate_sentinel_image(image: ee.Image, required_bands: list = None) -> bool:
+    """Valida se uma imagem do Sentinel-2 contém todas as bandas necessárias.
     
-    Parâmetros:
-        geometry (ee.Geometry): Geometria da área de interesse.
-        start_date (str): Data inicial no formato 'YYYY-MM-DD'.
-        end_date (str): Data final no formato 'YYYY-MM-DD'.
-        max_cloud_cover (int): Porcentagem máxima de cobertura de nuvens permitida (padrão: 20).
-    
-    Retorna:
-        ee.Image: Imagem composta (média) das imagens filtradas.
+    Args:
+        image: Imagem do Earth Engine a ser validada
+        required_bands: Lista de bandas obrigatórias
+        
+    Returns:
+        True se a imagem for válida, False caso contrário
     """
-    try:
-        collection = (
-            ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-            .filterBounds(geometry)
-            .filterDate(start_date, end_date)
-            .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', max_cloud_cover))
-        )
-        logger.info(f"Imagens obtidas para a geometria especificada.")
-        return collection.median()
-    except Exception as e:
-        logger.error(f"Erro ao obter imagens: {str(e)}")
-        raise
+    required_bands = required_bands or ['B2', 'B3', 'B4', 'B8', 'B11']
+    available_bands = image.bandNames().getInfo()
+    return all(b in available_bands for b in required_bands)
 
-def calculate_ndvi(image):
+def get_satellite_images(geometry: ee.Geometry, 
+                        start_date: str, 
+                        end_date: str, 
+                        max_cloud_cover: int = 20,
+                        max_attempts: int = 3) -> ee.Image:
+    """Obtém imagens do Sentinel-2 para a área e período especificados.
+    
+    Args:
+        geometry: Geometria da área de interesse
+        start_date: Data inicial no formato 'YYYY-MM-DD'
+        end_date: Data final no formato 'YYYY-MM-DD'
+        max_cloud_cover: Percentual máximo de cobertura de nuvens
+        max_attempts: Número máximo de tentativas
+        
+    Returns:
+        Imagem do Sentinel-2 processada
+        
+    Raises:
+        ValueError: Se não encontrar imagens válidas
     """
-    Calcula o NDVI (Índice de Vegetação por Diferença Normalizada).
+    for attempt in range(max_attempts):
+        try:
+            collection = (ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+                         .filterBounds(geometry)
+                         .filterDate(start_date, end_date)
+                         .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', max_cloud_cover)))
+            
+            if collection.size().getInfo() == 0:
+                raise ValueError("Nenhuma imagem disponível para o período e localização")
+                
+            image = collection.median()
+            
+            if not validate_sentinel_image(image):
+                raise ValueError("Imagem não contém todas as bandas necessárias")
+                
+            logger.info("Imagem do Sentinel-2 validada com sucesso")
+            return image
+            
+        except Exception as e:
+            logger.warning(f"Tentativa {attempt + 1} falhou: {str(e)}")
+            if attempt == max_attempts - 1:
+                raise
+            time.sleep(5)
+
+def calculate_vegetation_indices(image: ee.Image) -> ee.Image:
+    """Calcula índices de vegetação (NDVI, NDBI, MNDWI) a partir de uma imagem.
     
-    Parâmetros:
-        image (ee.Image): Imagem contendo as bandas necessárias para o cálculo.
-    
-    Retorna:
-        ee.Image: Imagem com a banda NDVI calculada.
+    Args:
+        image: Imagem do Sentinel-2
+        
+    Returns:
+        Imagem com bandas adicionais dos índices calculados
+        
+    Raises:
+        RuntimeError: Se ocorrer erro no cálculo dos índices
     """
     try:
+        # NDVI - Índice de Vegetação (B8=NIR, B4=Red)
         ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')
-        logger.info("NDVI calculado com sucesso.")
-        return ndvi
-    except Exception as e:
-        logger.error(f"Erro ao calcular NDVI: {str(e)}")
-        raise
-
-def calculate_ndbi(image):
-    """
-    Calcula o NDBI (Índice de Áreas Construídas).
-    
-    Parâmetros:
-        image (ee.Image): Imagem contendo as bandas necessárias para o cálculo.
-    
-    Retorna:
-        ee.Image: Imagem com a banda NDBI calculada.
-    """
-    try:
+        
+        # NDBI - Índice de Áreas Construídas (B11=SWIR, B8=NIR)
         ndbi = image.normalizedDifference(['B11', 'B8']).rename('NDBI')
-        logger.info("NDBI calculado com sucesso.")
-        return ndbi
-    except Exception as e:
-        logger.error(f"Erro ao calcular NDBI: {str(e)}")
-        raise
-
-def calculate_evi(image):
-    """
-    Calcula o EVI (Enhanced Vegetation Index).
-    
-    Parâmetros:
-        image (ee.Image): Imagem contendo as bandas necessárias para o cálculo.
-    
-    Retorna:
-        ee.Image: Imagem com a banda EVI calculada.
-    """
-    try:
-        nir = image.select('B8')  # Near Infrared
-        red = image.select('B4')  # Red
-        blue = image.select('B2')  # Blue
-        evi = nir.subtract(red).divide(nir.add(red.multiply(6)).subtract(blue.multiply(7.5)).add(1)).multiply(2.5).rename('EVI')
-        logger.info("EVI calculado com sucesso.")
-        return evi
-    except Exception as e:
-        logger.error(f"Erro ao calcular EVI: {str(e)}")
-        raise
-
-def calculate_mndwi(image):
-    """
-    Calcula o MNDWI (Modified Normalized Difference Water Index).
-    
-    Parâmetros:
-        image (ee.Image): Imagem contendo as bandas necessárias para o cálculo.
-    
-    Retorna:
-        ee.Image: Imagem com a banda MNDWI calculada.
-    """
-    try:
-        green = image.select('B3')  # Green
-        swir = image.select('B11')  # Short Wave Infrared
-        mndwi = green.subtract(swir).divide(green.add(swir)).rename('MNDWI')
-        logger.info("MNDWI calculado com sucesso.")
-        return mndwi
-    except Exception as e:
-        logger.error(f"Erro ao calcular MNDWI: {str(e)}")
-        raise
-
-def extract_features(image):
-    """
-    Extrai features como NDVI, NDBI, EVI e MNDWI da imagem fornecida.
-    
-    Parâmetros:
-        image (ee.Image): Imagem contendo as bandas necessárias para os cálculos.
-    
-    Retorna:
-        ee.Image: Imagem contendo todas as features adicionadas como bandas.
-    """
-    try:
-        ndvi = calculate_ndvi(image)
-        ndbi = calculate_ndbi(image)
-        evi = calculate_evi(image)
-        mndwi = calculate_mndwi(image)
         
-        # Adiciona as bandas calculadas à imagem original
-        features = image.addBands([ndvi, ndbi, evi, mndwi])
+        # MNDWI - Índice de Água (B3=Green, B11=SWIR)
+        mndwi = image.normalizedDifference(['B3', 'B11']).rename('MNDWI')
         
-        logger.info("Features extraídas com sucesso.")
-        return features
+        return image.addBands([ndvi, ndbi, mndwi])
+        
     except Exception as e:
-        logger.error(f"Erro ao extrair features: {str(e)}")
+        logger.error(f"Erro no cálculo de índices: {str(e)}")
+        raise
+
+def extract_features(image: ee.Image, 
+                    geometry: ee.Geometry,
+                    scale: int = 100,
+                    max_pixels: int = 1e9) -> Dict[str, float]:
+    """Extrai características (features) de uma imagem para cálculo do índice.
+    
+    Args:
+        image: Imagem do Sentinel-2 com bandas adicionais
+        geometry: Geometria da área de interesse
+        scale: Resolução espacial em metros
+        max_pixels: Número máximo de pixels para processamento
+        
+    Returns:
+        Dicionário com médias dos índices calculados
+        
+    Raises:
+        RuntimeError: Se ocorrer erro na extração de features
+    """
+    try:
+        # Calcular os índices de vegetação
+        with_indices = calculate_vegetation_indices(image)
+        
+        # Extrair estatísticas
+        stats = with_indices.select(['NDVI', 'NDBI', 'MNDWI']).reduceRegion(
+            reducer=ee.Reducer.mean(),
+            geometry=geometry,
+            scale=scale,
+            maxPixels=max_pixels
+        ).getInfo()
+        
+        return {
+            'NDVI_mean': stats.get('NDVI', 0),
+            'NDBI_mean': stats.get('NDBI', 0),
+            'MNDWI_mean': stats.get('MNDWI', 0)
+        }
+        
+    except Exception as e:
+        logger.error(f"Erro na extração de características: {str(e)}")
         raise
