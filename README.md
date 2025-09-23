@@ -1,3 +1,4 @@
+*LINK:* https://ecotrendanalystic-tym7yaqhbbzzxtedwryzgx.streamlit.app/
 # 🌱 EcoTrend Analystic – Índice de Sustentabilidade Urbana
 
 EcoMap é uma aplicação interativa que avalia a sustentabilidade de grandes cidades brasileiras utilizando imagens de satélite, dados ambientais e indicadores socioeconômicos. Com base em índices como NDVI, NDBI, EVI e MNDWI processados pelo Google Earth Engine, o sistema calcula um **índice composto de sustentabilidade urbana** e apresenta os resultados de forma visual em um **mapa interativo** e **gráficos comparativos**.
